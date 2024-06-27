@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Home from "./Home";
 import Summary from "./Summary";
 import EditMail from "./EditMail";
-import { Button, Col, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 const Stepper = () => {
   const [currentStep, setCurrentStep] = useState(0);
