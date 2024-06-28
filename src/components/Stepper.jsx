@@ -9,6 +9,7 @@ const Stepper = () => {
   const [summaryText, setSummaryText] = useState("");
   const [emailText , setEmailText] = useState("");
   const [voiceSrc, setVoiceSrc] = useState("");
+  const [pdfLinks, setPDFLinks] = useState(null);
 
   const goToNextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -24,7 +25,7 @@ const Stepper = () => {
   const steps = [
     {
       label: "Upload Files",
-      content: <Home setAudio={setVoiceSrc} setEmailText={setEmailText} setSummaryText={setSummaryText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
+      content: <Home setPDFLinks={setPDFLinks} setAudio={setVoiceSrc} setEmailText={setEmailText} setSummaryText={setSummaryText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
       subheading: "Upload estimate and property measurements files",
     },
     {
@@ -34,7 +35,7 @@ const Stepper = () => {
     },
     {
       label: "Step 3",
-      content: <EditMail text={emailText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
+      content: <EditMail PDFLinks={pdfLinks} text={emailText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
       subheading: "Upload estimate and property measurements files",
     },
   ];

@@ -1,10 +1,9 @@
-// in config.js
 import { createChatBotMessage } from 'react-chatbot-kit';
 
 const botName = 'Cortex Bot';
 
 const config = {
-  initialMessages: [createChatBotMessage(`Hi! I'm ${botName}`)],
+  initialMessages: [createChatBotMessage(`Hi! I'm Cortex Assistant`)],
   botName: botName,
   customStyles: {
     botMessageBox: {
@@ -13,6 +12,10 @@ const config = {
     chatButton: {
       backgroundColor: '#5ccc9d',
     },
+  },
+  state: {
+    messages: [],
+    chatHistory: [],
   },
 };
 
