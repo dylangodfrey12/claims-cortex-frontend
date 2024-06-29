@@ -32,7 +32,7 @@ const ActionProvider = ({ createChatBotMessage, setState,chatHistory,setChatHist
         chat_history: chatHistoryRef.current,
       });
 
-      const { input, answer } = response.data.response;
+      const { answer } = response.data.response;
 
       const botMessage = createChatBotMessage(answer, { type: 'bot' });
 
