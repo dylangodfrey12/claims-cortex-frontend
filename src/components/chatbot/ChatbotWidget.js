@@ -9,9 +9,20 @@ import chatLogo from "../../assets/chat-bot.svg";
 
 const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
+  };
+
+  const saveMessages = (messages, HTMLString) => {
+    setMessages(messages);
+  };
+
+  const loadMessages = () => {
+    console.log("messages",messages);
+    return messages;
   };
 
   return (
@@ -21,7 +32,11 @@ const ChatbotWidget = () => {
           <Chatbot
             config={config}
             messageParser={MessageParser}
-            actionProvider={ActionProvider}
+            actionProvider={(props) => (
+              <ActionProvider {...props} chatHistory={chatHistory} setChatHistory={setChatHistory} />
+            )}
+            saveMessages={saveMessages}
+            messageHistory={loadMessages()}
           />
         </div>
       )}
