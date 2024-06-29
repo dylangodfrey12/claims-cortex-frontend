@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import logo from "../assets/logo-text.png";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = (event) => {
         event.preventDefault();
-        localStorage.setItem("authToken", "sample_token_123");
-        navigate("/");
+        
+        // Basic validation
+        if (!email || !password) {
+            toast.error("Please enter both email and password.");
+            return;
+        }
+
+        // Check credentials
+        if (email === "admin@gmail.com" && password === "admin") {
+            localStorage.setItem("authToken", "sample_token_123");
+            navigate("/");
+        } else {
+            toast.error("Invalid credentials.");
+        }
     };
 
     return (
@@ -31,6 +47,8 @@ const Login = () => {
                         <Form.Control
                             type="email"
                             className="bg-transparent text-white py-3"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </Form.Group>
 
@@ -39,21 +57,9 @@ const Login = () => {
                         <Form.Control
                             type="password"
                             className="bg-transparent text-white py-3"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                        <Form.Check type="checkbox" label="Remember me" className='login-checkbox' />
-                        <p>
-                            <a href="#" style={{color:"#5B2AE0"}}>Forgot Password? </a>
-                        </p>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                        <Form.Check type="checkbox" className='login-checkbox'  />
-                        <p className='m-0 '>
-                        I agree to all the <a href="#" style={{color:"#5B2AE0",textDecoration:"none"}}>Terms </a>and <a href="#" style={{color:"#5B2AE0",textDecoration:"none"}}>Privacy Policy </a>
-                        </p>
-                        </div> */}
                     </Form.Group>
 
                     <Button
