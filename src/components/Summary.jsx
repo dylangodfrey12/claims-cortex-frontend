@@ -1,13 +1,14 @@
 import React, { useState, useRef } from "react";
 import { Button, Col, Container, Image, Spinner } from "react-bootstrap";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-2.png";
 import volume from "../assets/volume.png";
 import stop from "../assets/stop.png";
 
-const Summary = ({ voiceSrc, text, currentStep, goToNextStep, goToPreviousStep }) => {
+const Summary = ({ emailLoading,voiceSrc, text, currentStep, goToNextStep, goToPreviousStep }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const audioRef = useRef(null);
+    
 
     const formatText = (text) => {
         return text?.replace(/\n/g, "<br>");
@@ -91,7 +92,7 @@ const Summary = ({ voiceSrc, text, currentStep, goToNextStep, goToPreviousStep }
                     <Button
                         className="step-button border-0 px-4 py-2"
                         onClick={handleNextStep}
-                        disabled={currentStep === 3}
+                        disabled={emailLoading}
                     >
                         <p className="m-0">
                             NEXT STEP

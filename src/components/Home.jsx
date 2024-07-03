@@ -1,78 +1,34 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Image, Nav } from "react-bootstrap";
 import { toast } from 'react-toastify';
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-2.png";
 import FileUploader from "./FileUploader";
 import TinyEditor from "./TextEditor";
 import { uploadAdjusterMail, uploadPDF } from "../services/uploads/upload.service";
 
-const parseLinks = (linksStr) => {
-  const lines = linksStr.trim().split('\n');
-
-  const parsedData = [];
-  let currentComponent = null;
-  let currentDocs = [];
-
-  const componentPattern = /^Component:\s*-\s*(.*)$/;
-  const metadataPattern = /Metadata: \{'Argument Name': '(.+)', 'Link': '(.*)?'\}/;
-
-  lines.forEach(line => {
-    const componentMatch = line.match(componentPattern);
-    const metadataMatch = line.match(metadataPattern);
-
-    if (componentMatch) {
-      if (currentComponent) {
-        parsedData.push({
-          Component: currentComponent,
-          Documents: currentDocs,
-        });
-        currentDocs = [];
-      }
-      currentComponent = componentMatch[1];
-    } else if (metadataMatch) {
-      const doc = {
-        'Argument Name': metadataMatch[1],
-        'Link': metadataMatch[2] || '',
-      };
-      currentDocs.push(doc);
-    }
-  });
-
-  if (currentComponent) {
-    parsedData.push({
-      Component: currentComponent,
-      Documents: currentDocs,
-    });
-  }
-
-  return parsedData;
-};
-
 // Sample data to test the function
-const linksStr = `
-Component: -
-Documents:
-Metadata: {'Argument Name': 'Mechanical Damage Roof (denial).txt'}
----
-`;
+// const linksStr = `
+// Component: -
+// Documents:
+// Metadata: {'Argument Name': 'Mechanical Damage Roof (denial).txt'}
+// ---
+// `;
 
-const parsedLinks = parseLinks(linksStr);
-console.log(parsedLinks);
+// const parsedLinks = parseLinks(linksStr);
+// console.log(parsedLinks);
 
 
-const Home = ({ setSummaryText, setEmailText,setPDFLinks, currentStep, goToNextStep, setAudio }) => {
-  const [selectedOption, setSelectedOption] = useState("upload");
+const Home = ({selectedOption,setSelectedOption,content,setEmailJest, setContent, setOrganizedArguments,setFullArguments,setDifferences, setSummaryText, setEmailText,setPDFLinks, currentStep, goToNextStep, setAudio }) => {
   const [estimatePdf, setEstimatePdf] = useState(null);
   const [propertyPdf, setPropertyPdf] = useState(null);
-  const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);// State to store parsed links
+  const [loading, setLoading] = useState(false);
 
   const handleSelect = (option) => {
     setSelectedOption(option);
   };
 
   const handlePdfNext = async () => {
-    const toastId = toast.loading("Generating Summary..."); // Show loading toast
+    const toastId = toast.loading("Generating Summary of your argument"); // Show loading toast
     try {
       setLoading(true);
       const formData = new FormData();
@@ -91,13 +47,16 @@ const Home = ({ setSummaryText, setEmailText,setPDFLinks, currentStep, goToNextS
       setSummaryText(response.data.summary);
       setEmailText(response.data.email);
       setAudio(response.data.audio_url);
+      setOrganizedArguments(selectedOption === "upload"?response.data?.organized_arguments:response.data?.email_arguments);
+      setFullArguments(response.data.full_arguments);
+      setDifferences(response.data.differences);
+      setEmailJest(response.data.email_jest);
       
       // Parse and store the links
-      const parsedLinks = parseLinks(response.data.links);
-      console.log("parsed Links",parsedLinks);
-      setPDFLinks(parsedLinks);
+      // const parsedLinks = parseLinks(response.data.links);
+      // setPDFLinks(parsedLinks);
       setLoading(false);
-      toast.update(toastId, { render: "Summary Generated Successfully", type: "success", isLoading: false, autoClose: 5000 });
+      toast.update(toastId, { render: "Summary of your argument generated Successfully", type: "success", isLoading: false, autoClose: 5000 });
       goToNextStep(); // Call the function to go to the next step
     } catch (error) {
       console.error("Error uploading files:", error);

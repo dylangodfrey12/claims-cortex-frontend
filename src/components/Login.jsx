@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../assets/logo-text.png";
+import logo from "../assets/logo-text-2.png";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
