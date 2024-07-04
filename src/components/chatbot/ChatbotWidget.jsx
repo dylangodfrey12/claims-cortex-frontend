@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
 import config from './config';
@@ -9,11 +9,17 @@ import chatLogo from "../../assets/chat-bot.svg";
 
 const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
+  const messageContainerRef = useRef(null);
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
   };
 
   const saveMessages = (messages, HTMLString) => {
@@ -21,16 +27,27 @@ const ChatbotWidget = () => {
   };
 
   const loadMessages = () => {
-    console.log("messages",messages);
     return messages;
   };
+
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen]);
 
   return (
     <div className="chatbot-widget">
       {isOpen && (
-        <div className="chatbot-container">
+       <div className={`chatbot-container ${isExpanded ? 'expanded' : 'collapsed'}`} ref={messageContainerRef}>
           <Chatbot
-            config={config}
+            config={config(toggleExpand, setIsOpen)}
             messageParser={MessageParser}
             actionProvider={(props) => (
               <ActionProvider {...props} chatHistory={chatHistory} setChatHistory={setChatHistory} />
