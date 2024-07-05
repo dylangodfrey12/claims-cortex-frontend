@@ -89,9 +89,9 @@ const Stepper = () => {
     const toastId = toast.loading("Generating Email Summary for you");
     try {
       const formData = new FormData();
+      setEmailLoading(true);
       let data;
       if (selectedOption === "upload") {
-      setEmailLoading(true);
       formData.append("differences", differences);
       formData.append("summary", summaryText);
       formData.append("organized_arguments", organizedArguments);

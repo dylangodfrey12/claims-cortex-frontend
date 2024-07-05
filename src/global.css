@@ -139,7 +139,8 @@ body {
   flex: 1;
   background-color: #FFFFFF;
   padding: 10px;
-  clip-path: polygon(93% 0, 100% 50%, 93% 100%, 0% 100%, 0 50%, 0% 0%);
+  clip-path: polygon(93% 0, 100% 50%, 93% 101%, 0% 101%, 0 50%, 0% 0%)
+
 
 
 }
@@ -157,12 +158,12 @@ body {
 }
 
 .stepper-step.last{
-  clip-path: polygon(100% 0%, 100% 54%, 100% 100%, 0 100%, 7% 50%, 0 0) !important;
+  clip-path: polygon(100% 0%, 100% 54%, 101% 100%, 0 101%, 7% 50%, 0 0) !important;
 
 }
 
 .stepper-step.active.second{
-  clip-path: polygon(93% 0, 100% 51%, 93% 100%, 0% 100%, 6% 51%, 0% 0%) !important;
+  clip-path: polygon(93% 0, 100% 51%, 93% 101%, 0% 101%, 6% 51%, 0% 0%) !important;
 }
 
 
