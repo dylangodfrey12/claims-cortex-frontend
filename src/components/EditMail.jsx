@@ -5,12 +5,12 @@ import pdfIcon from "../assets/pdf-icon.png";
 import Modal from 'react-bootstrap/Modal';
 import TinyEditor from "./TextEditor";
 import SuccessModal from "./SuccessModal";
-import emailjs from '@emailjs/browser';
 import { toast } from 'react-toastify';
 // import samplepdf from "../assets/download.pdf";
 import { Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { Worker } from '@react-pdf-viewer/core';
+import { sendMail } from "../services/mail/mail.service";
 
 const EditMail = ({ text, currentStep, goToNextStep, goToPreviousStep, PDFLinks }) => {
   // const pdfFiles = [
@@ -49,7 +49,7 @@ const EditMail = ({ text, currentStep, goToNextStep, goToPreviousStep, PDFLinks 
     setsuccessShow(true);
   }
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!validateEmail(email)) {
       toast.error("Invalid email address. Please enter a valid email.");
       return;
@@ -57,25 +57,22 @@ const EditMail = ({ text, currentStep, goToNextStep, goToPreviousStep, PDFLinks 
 
     const toastId = toast.loading("Sending email..."); // Show loading toast
 
-    const templateParams = {
+    const emailData = {
       to_email: email,
       subject: subject,
       message: content,
+      pdf_links: PDFLinks.flatMap(component => component.Documents.map(pdf => pdf.Link).filter(link => link))
     };
 
-    emailjs.init({
-      publicKey: 'kbqxzumK14ttG-Rr5',
-    });
-
-    emailjs.send('service_gtmgvjf', 'template_g6rkh89', templateParams)
-      .then((response) => {
-        console.log('SUCCESS!', response.status, response.text);
-        toast.update(toastId, { render: "Email sent successfully!", type: "success", isLoading: false, autoClose: 5000 });
-        handleShowSuccess();
-      }, (error) => {
-        console.log('FAILED...', error);
-        toast.update(toastId, { render: "Failed to send email.", type: "error", isLoading: false, autoClose: 5000 });
-      });
+    try {
+      const response = await sendMail(emailData);
+      console.log('Email sent successfully!', response.data);
+      toast.update(toastId, { render: "Email sent successfully!", type: "success", isLoading: false, autoClose: 5000 });
+      handleShowSuccess();
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      toast.update(toastId, { render: "Failed to send email.", type: "error", isLoading: false, autoClose: 5000 });
+    }
   }
 
   const formatText = (text) => {
