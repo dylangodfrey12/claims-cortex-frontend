@@ -27,7 +27,7 @@ const Stepper = () => {
     let currentComponent = null;
     let currentDocs = [];
   
-    const componentPattern = /^Component:\s*-\s*(.*)$/;
+    const componentPattern = /^Component:\s*-?\s*(.*)$/; // Modified pattern to match optional hyphen and spaces
     const metadataPattern = /Metadata: \{'Argument Name': '(.+)', 'Link': '(.*)?'\}/;
   
     lines.forEach(line => {
@@ -35,14 +35,14 @@ const Stepper = () => {
       const metadataMatch = line.match(metadataPattern);
   
       if (componentMatch) {
-        if (currentComponent) {
+        if (currentComponent !== null) {
           parsedData.push({
             Component: currentComponent,
             Documents: currentDocs,
           });
           currentDocs = [];
         }
-        currentComponent = componentMatch[1];
+        currentComponent = componentMatch[1].trim();
       } else if (metadataMatch) {
         const doc = {
           'Argument Name': metadataMatch[1],
@@ -52,7 +52,7 @@ const Stepper = () => {
       }
     });
   
-    if (currentComponent) {
+    if (currentComponent !== null) {
       parsedData.push({
         Component: currentComponent,
         Documents: currentDocs,

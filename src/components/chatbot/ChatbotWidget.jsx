@@ -36,6 +36,10 @@ const ChatbotWidget = () => {
     }
   };
 
+  const validateInput = (message) => {
+    return message.trim().length > 0;
+  };
+
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
@@ -49,6 +53,7 @@ const ChatbotWidget = () => {
           <Chatbot
             config={config(toggleExpand, setIsOpen)}
             messageParser={MessageParser}
+            validator={validateInput}
             actionProvider={(props) => (
               <ActionProvider {...props} chatHistory={chatHistory} setChatHistory={setChatHistory} />
             )}
