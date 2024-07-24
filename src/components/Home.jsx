@@ -94,7 +94,7 @@ const Home = ({selectedOption,setSelectedOption,content,setEmailJest, setContent
             active={selectedOption === "response"}
             onClick={() => handleSelect("response")}
           >
-            Adjuster's Email
+            Adjusters Email
           </Nav.Link>
         </Nav.Item>
       </Nav>
