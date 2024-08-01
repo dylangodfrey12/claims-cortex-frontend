@@ -18,7 +18,7 @@ import { uploadAdjusterMail, uploadPDF } from "../services/uploads/upload.servic
 // console.log(parsedLinks);
 
 
-const Home = ({selectedOption,setSelectedOption,content,setEmailJest, setContent, setOrganizedArguments,setFullArguments,setDifferences, setSummaryText, setEmailText,setPDFLinks, currentStep, goToNextStep, setAudio }) => {
+const Home = ({selectedOption,setSelectedOption,content,setEmailJest, setContent, setOrganizedArguments,setFullArguments,setDifferences, setSummaryText, setEmailText,setPDFLinks, currentStep, goToNextStep, setAudio, setRepairType }) => {
   const [estimatePdf, setEstimatePdf] = useState(null);
   const [propertyPdf, setPropertyPdf] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -48,6 +48,7 @@ const Home = ({selectedOption,setSelectedOption,content,setEmailJest, setContent
       setEmailText(response.data.email);
       setAudio(response.data.audio_url);
       setOrganizedArguments(selectedOption === "upload"?response.data?.organized_arguments:response.data?.email_arguments);
+      setRepairType(response.data.repair_type)
       setFullArguments(response.data.full_arguments);
       setDifferences(response.data.differences);
       setEmailJest(response.data.email_jest);

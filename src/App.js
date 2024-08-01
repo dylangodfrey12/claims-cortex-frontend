@@ -7,8 +7,7 @@ import ChatbotWidget from './components/chatbot/ChatbotWidget';
 
 const App = () => {
   const location = useLocation();
-  const showStepper = location.pathname !== "/login";
-
+  const showStepper = location.pathname !== "/login" ;
   return (
     <>
       <Navigation />

@@ -15,6 +15,7 @@ const Stepper = () => {
   const [differences, setDifferences] = useState("");
   const [fullArguments, setFullArguments] = useState("");
   const [organizedArguments, setOrganizedArguments] = useState("");
+  const [repairType, setRepairType] = useState("");
   const [hasCalledAPI, setHasCalledAPI] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [content, setContent] = useState("");
@@ -96,6 +97,7 @@ const Stepper = () => {
       formData.append("summary", summaryText);
       formData.append("organized_arguments", organizedArguments);
       formData.append("full_arguments", fullArguments);
+      formData.append("repair_type", repairType);
       }
       else{
         data={
@@ -103,13 +105,15 @@ const Stepper = () => {
           "summary":summaryText,
           "email_arguments":organizedArguments,
           "email_jest":emailJest,
-          "full_arguments":fullArguments
+          "full_arguments":fullArguments,
+          "repair_type":repairType
         }
       }
       
       const headers = {
         "Content-Type": "multipart/form-data"
       };
+      console.log("response",data);
       const response = selectedOption==="upload"? await generateMailfromPDF(formData,headers):await generateMailfromText(data);
       console.log("response",response.data);
       setEmailText(response.data.email);
@@ -127,7 +131,7 @@ const Stepper = () => {
   const steps = [
     {
       label: "Upload Files",
-      content: <Home selectedOption={selectedOption} setSelectedOption={setSelectedOption} setEmailJest={setEmailJest} content={content} setContent={setContent} setDifferences={setDifferences} setFullArguments={setFullArguments} setOrganizedArguments={setOrganizedArguments} setPDFLinks={setPDFLinks} setAudio={setVoiceSrc} setEmailText={setEmailText} setSummaryText={setSummaryText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
+      content: <Home selectedOption={selectedOption} setSelectedOption={setSelectedOption} setEmailJest={setEmailJest} content={content} setContent={setContent} setDifferences={setDifferences} setFullArguments={setFullArguments} setOrganizedArguments={setOrganizedArguments} setRepairType={setRepairType} setPDFLinks={setPDFLinks} setAudio={setVoiceSrc} setEmailText={setEmailText} setSummaryText={setSummaryText} currentStep={currentStep} goToNextStep={goToNextStep} goToPreviousStep={goToPreviousStep} />,
       subheading: "Upload estimate and property measurements files",
     },
     {
